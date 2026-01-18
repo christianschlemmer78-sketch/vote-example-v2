@@ -1,5 +1,4 @@
-// const BACKEND_URL = "http://localhost:3000";
-const BACKEND_URL = "";
+const BACKEND_URL = "http://localhost:3000";
 const slowDown = "?slow"; // ""
 
 export async function fetchJson(path) {
