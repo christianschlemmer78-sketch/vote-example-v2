@@ -3,8 +3,7 @@ import VoteList from "./VoteList";
 import InactiveVoteComposer from "./InactiveVoteComposer";
 import VoteComposer from "./VoteComposer";
 
-export default function VoteController({ votes, onRegisterVote, onSaveVote }) {
-  const [allVotes, setAllVotes] = React.useState(votes);
+export default function VoteController({ votes, onSaveVote, onRegisterVote }) {
   const [currentVoteId, setCurrentVoteId] = React.useState(null);
   const [voteComposerActive, setVoteComposerActive] = React.useState(false);
 
@@ -26,42 +25,22 @@ export default function VoteController({ votes, onRegisterVote, onSaveVote }) {
     setVoteComposerActive(true);
   }
 
-  function addVote(vote) {
-    setAllVotes([...allVotes, vote]);
-    closeVoteComposer();
-  }
-
   function saveVote(vote) {
     closeVoteComposer();
     onSaveVote(vote);
   }
 
-  function registerVote(vote, choice) {
-    const newVotes = allVotes.map(v =>
-      v.id !== vote.id
-        ? v
-        : {
-            ...vote,
-            choices: vote.choices.map(c =>
-              c.id !== choice.id ? c : { ...c, count: c.count + 1 }
-            )
-          }
-    );
-
-    setAllVotes(newVotes);
-  }
-
   return (
     <div>
       <VoteList
-        allVotes={allVotes}
+        allVotes={votes}
         currentVoteId={currentVoteId}
         onSelectVote={setCurrentVote}
         onDismissVote={unsetCurrentVote}
-        onRegisterVote={registerVote}
+        onRegisterVote={onRegisterVote}
       />
       {voteComposerActive ? (
-        <VoteComposer onDeactivate={closeVoteComposer} onSave={addVote} />
+        <VoteComposer onDeactivate={closeVoteComposer} onSave={saveVote} />
       ) : (
         <InactiveVoteComposer onActivate={openVoteComposer} />
       )}

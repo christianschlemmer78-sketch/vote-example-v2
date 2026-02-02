@@ -8,6 +8,7 @@ import "./index.css";
 import App from "./App";
 import VoteListPage from "./components/VoteListPage";
 
+// Render VotingComponent
 ReactDOM.render(
   <App>
     <VoteListPage />

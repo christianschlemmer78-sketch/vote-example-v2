@@ -15,7 +15,7 @@ export default function VoteListPage() {
     loadVotes();
   }, []);
 
-  async function registerVote(vote, choice){
+  async function registerVote(vote, choice) {
     await sendJson("PUT", `/api/votes/${vote.id}/choices/${choice.id}/vote`);
     loadVotes();
   }
@@ -29,5 +29,11 @@ export default function VoteListPage() {
     return <VoteLoadingIndicator />;
   }
 
-  return <VoteController votes={allVotes} onRegisterVote={registerVote} onSaveVote={addVote} />;
+  return (
+    <VoteController
+      votes={allVotes}
+      onRegisterVote={registerVote}
+      onSaveVote={addVote}
+    />
+  );
 }
