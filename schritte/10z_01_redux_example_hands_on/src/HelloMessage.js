@@ -14,7 +14,7 @@ export default function HelloMessage({ initialMessage }) {
   return (
     <div>
       <input onChange={onUpdateGreeting} value={greeting} />
-      <p>{greeting}, World</p>
+      <p>{greeting}</p>
       <button onClick={onResetGreeting}>Reset</button>
     </div>
   );
