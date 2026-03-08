@@ -1,8 +1,16 @@
 const BACKEND_URL = "http://localhost:3000";
-const slowDown = "?slow"; // ""
+const SLOW_MODE = true;      // slow node on/off
+const SLOW_DELAY_MS = 3000;  // delay in ms
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export async function fetchJson(path) {
-  const url = `${BACKEND_URL}${path}${slowDown}`;
+  const url = `${BACKEND_URL}${path}`;
+  if (SLOW_MODE) {
+    await delay(SLOW_DELAY_MS);
+  }  
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Response from server not OK: ${response.status}`);
