@@ -1,4 +1,5 @@
 import React from "react";
+import {useParams,useHistory} from 'react-router';
 import VoteController from "./VoteController";
 import VoteLoadingIndicator from "./VoteLoadingIndicator";
 import { fetchJson, sendJson } from "../backend";
@@ -28,6 +29,8 @@ export function voteListReducer(state, action) {
   }
 }
 export default function VoteListPage() {
+  const currentVoteId = useParams().voteId;
+  const history = useHistory();
   const [state, dispatch] = React.useReducer(voteListReducer, initialState);
 
   React.useEffect(() => {
@@ -57,14 +60,14 @@ export default function VoteListPage() {
     loadVotes();
   }
 
-  async function addVote(vote) {
-    dispatch({ type: "START_REQUEST" });
-    const newVote = await sendJson("POST", "/api/votes", vote);
-    dispatch({
-      type: "ADD_VOTE_SUCCESS",
-      newVote
-    });
-  }
+  // async function addVote(vote) {
+  //   dispatch({ type: "START_REQUEST" });
+  //   const newVote = await sendJson("POST", "/api/votes", vote);
+  //   dispatch({
+  //     type: "ADD_VOTE_SUCCESS",
+  //     newVote
+  //   });
+  // }
 
   if (state.loading) {
     return <VoteLoadingIndicator />;
@@ -74,11 +77,16 @@ export default function VoteListPage() {
     return <ErrorMessage msg={state.error} onRetry={loadVotes} />;
   }
 
+  function dismissVote() {
+    history.push("/");
+  }
+
   return (
     <VoteController
       votes={state.allVotes}
+      currentVoteId={currentVoteId}
       onRegisterVote={registerVote}
-      onSaveVote={addVote}
+      onDismissVote={dismissVote}      
     />
   );
 }

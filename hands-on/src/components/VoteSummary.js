@@ -1,19 +1,16 @@
 import React from "react";
-
-export default function VoteSummary({ vote, onActivate }) {
+import { Link } from "react-router-dom";
+export default function VoteSummary({ vote }) {
   const totalVotes = vote.choices.reduce((prev, curr) => prev + curr.count, 0);
 
-  function handleClick() {
-    onActivate(vote);
-  }
-
   return (
-    <div onClick={handleClick} className="Row VotesRow Selectable">
-      <h1 className="Title">
-        {vote.title}
-        <div className="Badge">{totalVotes} Votes</div>
-      </h1>
-
+    <div className="Row VotesRow Selectable">
+      <Link to={`/votes/${vote.id}`}>
+        <h1 className="Title">
+          {vote.title}
+          <div className="Badge">{totalVotes} Votes</div>
+        </h1>
+      </Link>
       <p className="Emphasis">{vote.description}</p>
     </div>
   );
