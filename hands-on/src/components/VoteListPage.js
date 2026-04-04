@@ -60,15 +60,6 @@ export default function VoteListPage() {
     loadVotes();
   }
 
-  // async function addVote(vote) {
-  //   dispatch({ type: "START_REQUEST" });
-  //   const newVote = await sendJson("POST", "/api/votes", vote);
-  //   dispatch({
-  //     type: "ADD_VOTE_SUCCESS",
-  //     newVote
-  //   });
-  // }
-
   if (state.loading) {
     return <VoteLoadingIndicator />;
   }

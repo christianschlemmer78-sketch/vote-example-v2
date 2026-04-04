@@ -22,6 +22,19 @@ export default function App() {
     );
   }
 
+  function voteListOrLogin() {
+    return loggedIn ? (
+      <VoteListPage />
+    ) : (
+      <Redirect
+        to={{
+          pathname: "/login",
+          state: { redirectAfter: location.pathname }
+        }}
+      />
+    );
+  }
+
   function login() {
     setLoggedIn(true);
   }  
@@ -36,11 +49,11 @@ export default function App() {
         <div className="Container">
           <Switch>
             <Route exact path="/">
-              <VoteListPage />
+              {voteListOrLogin()}
             </Route>
 
             <Route path="/votes/:voteId">
-              <VoteListPage />
+              {voteListOrLogin()}
             </Route>
 
             <Route path="/login">
