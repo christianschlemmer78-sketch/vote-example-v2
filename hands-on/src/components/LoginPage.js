@@ -1,13 +1,15 @@
 import React from 'react';
 import { useLocation, useHistory} from "react-router";
+import { useLogin } from "./LoginProvider";
 
-export default function LoginPage({ onSuccessfulLogin }) {
+export default function LoginPage() {
     const [email, setEmail] = React.useState("");
     const history = useHistory();
     const location = useLocation();
+    const { login } = useLogin();
 
-    function login() {
-        onSuccessfulLogin();
+    function doLogin() {
+        login();
         const redirectTo = location.state && location.state.redirectTo
             ? location.state.redirectTo
             : "/";
@@ -34,7 +36,7 @@ export default function LoginPage({ onSuccessfulLogin }) {
           onChange={e => setEmail(e.target.value)}
         />
         <div className="ButtonBar">
-          <button disabled={!emailValid} className="Button" onClick={login}>
+          <button disabled={!emailValid} className="Button" onClick={doLogin}>
             Login
           </button>
           <button className="Button" onClick={cancel}>

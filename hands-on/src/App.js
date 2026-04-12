@@ -4,13 +4,14 @@ import VoteListPage from "./components/VoteListPage";
 import NotFoundPage from "./components/NotFoundPage";
 import LoginPage from "./components/LoginPage";
 import VoteComposerPage from "./components/VoteComposerPage";
+import { useLogin } from "./components/LoginProvider";
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
   const location = useLocation();
+  const { isLoggedIn } = useLogin();
 
   function voteComposerOrLogin() {
-    return loggedIn ? (
+    return isLoggedIn ? (
       <VoteComposerPage />
     ) : (
       <Redirect
@@ -21,10 +22,6 @@ export default function App() {
       />
     );
   }
-
-  function login() {
-    setLoggedIn(true);
-  }  
 
   return (
     <div className="Background">
@@ -44,7 +41,7 @@ export default function App() {
             </Route>
 
             <Route path="/login">
-              <LoginPage onSuccessfulLogin={login} />
+              <LoginPage />
             </Route>
             
             <Route path="/compose">{voteComposerOrLogin()}</Route>
