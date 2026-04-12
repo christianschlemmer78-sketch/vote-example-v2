@@ -1,5 +1,5 @@
 const BACKEND_URL = "http://localhost:3000";
-const SLOW_MODE = true;      // slow node on/off
+const SLOW_MODE = false;      // slow node on/off
 const SLOW_DELAY_MS = 3000;  // delay in ms
 
 function delay(ms) {
