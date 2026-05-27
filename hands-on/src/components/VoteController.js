@@ -8,32 +8,6 @@ export default function VoteController({
   onRegisterVote,
   onDismissVote
 }) {
-  // const [currentVoteId, setCurrentVoteId] = React.useState(null);
-  // const [voteComposerActive, setVoteComposerActive] = React.useState(false);
-
-  // function setCurrentVote(vote) {
-  //   closeVoteComposer();
-  //   setCurrentVoteId(vote.id);
-  // }
-
-  // function unsetCurrentVote() {
-  //   setCurrentVoteId(null);
-  // }
-
-  // function closeVoteComposer() {
-  //   setVoteComposerActive(false);
-  // }
-
-  // function openVoteComposer() {
-  //   unsetCurrentVote();
-  //   setVoteComposerActive(true);
-  // }
-
-  // function saveVote(vote) {
-  //   closeVoteComposer();
-  //   onSaveVote(vote);
-  // }
-
   return (
     <div>
       <VoteList
