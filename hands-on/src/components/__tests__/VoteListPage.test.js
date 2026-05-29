@@ -3,9 +3,13 @@ import {
   render,
   fireEvent,
   waitForElement,
-  wait
+  wait,
+  getByText
 } from "@testing-library/react";
 import VoteListPage from "../VoteListPage";
+import { Router, Route } from "react-router-dom";
+import { createMemoryHistory } from "history";
+import LoginProvider from "../LoginProvider";
 
 // theVotes enthält die Testdaten die normalerweise vom Server
 // kommen würden, aber in unserem Test durch den Mock
@@ -42,13 +46,30 @@ test("that it loads data and renders (with fetch mock)", async () => {
             json: () => theVotes
         })
     ); 
-    const { container, queryByText } = render(<VoteListPage />);
+
+    const history = createMemoryHistory();
+    const { container, queryByText } = render(
+      <Router history={history}>
+        <LoginProvider>
+          <Route component={VoteListPage} />
+        </LoginProvider>
+      </Router>
+    );
     const spinner = container.querySelector(".Spinner");
     expect(spinner).toBeInTheDocument();
+
+    // DEMO ONLY: as the outstanding promises from fetch(mock) and
+    // 'backend.js' have not been resolved yet, we cannot use
+    // queryByText here, but need to use waitForElement (see below)
+    expect(queryByText("Programming languages")).not.toBeInTheDocument();
+
     const vote = await waitForElement(() => queryByText("Programming languages"));
     expect(vote).toBeInTheDocument();
+   
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://localhost:3000/api/votes"
+    );
+
     fireEvent.click(vote);
-    fireEvent.click(queryByText("JavaScript"));
-    await wait();
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(history.location.pathname).toBe("/votes/vote_2");
 });

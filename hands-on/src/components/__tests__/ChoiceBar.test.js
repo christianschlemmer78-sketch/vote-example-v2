@@ -5,6 +5,7 @@ import TestRenderer from "react-test-renderer";
 
 test("that it renders and button works", () => {
   const onClickHandler = jest.fn();
+
   const { getByText, container } = render(
     <ChoiceBar
       title="Hello"
@@ -14,9 +15,23 @@ test("that it renders and button works", () => {
     />
   );
 
-  // event auslösen
-  fireEvent.click(getByText("Hello"));
+  const progress = container.querySelector(".Progress");
+  expect(progress).toHaveStyle("width: 33%");
 
-  // sicherstellen, dass übergebne Callback-Funktion aufgerufen wurde
-  expect(onClickHandler).toHaveBeenCalledTimes(1);
+  expect(getByText("123")).toBeInTheDocument();
+
+  fireEvent.click(getByText("Hello"));
+  expect(onClickHandler).toHaveBeenCalled();
+});
+
+test("renders correctly (Snapshot Example)", () => {
+  let tree;
+
+  TestRenderer.act(() => {
+    tree = TestRenderer.create(
+      <ChoiceBar title="Hello" percent={33} count={123} />
+    );
+  });
+
+  expect(tree.toJSON()).toMatchSnapshot();
 });
