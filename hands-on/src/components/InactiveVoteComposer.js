@@ -4,7 +4,7 @@ import { useLogin } from "./LoginProvider";
 
 export default function InactiveVoteComposer() {
   const { isLoggedIn } = useLogin();
-  const loginHint = isLoggedIn ? "You are are already logged in." : "You need to log in to add Votings.";
+  const loginHint = isLoggedIn ? "You are already logged in." : "You need to be logged in to add Votings.";
 
   return (
     <div className="Row VotesRow Spacer">
