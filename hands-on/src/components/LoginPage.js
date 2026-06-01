@@ -1,20 +1,23 @@
-import React from 'react';
-import { useLocation, useHistory} from "react-router";
-import { useLogin } from "./LoginProvider";
+import React from "react";
+import { useHistory, useLocation } from "react-router";
+import { useDispatch } from "react-redux";
+import { login } from "../actions";
 
 export default function LoginPage() {
-    const [email, setEmail] = React.useState("");
-    const history = useHistory();
-    const location = useLocation();
-    const { login } = useLogin();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const [email, setEmail] = React.useState("");
 
-    function doLogin() {
-        login();
-        const redirectTo = location.state && location.state.redirectTo
-            ? location.state.redirectTo
-            : "/";
-        history.replace(redirectTo);
-    }
+  function doLogin() {
+    dispatch(login(email));
+    const redirectTo =
+      location.state && location.state.redirectAfter
+        ? location.state.redirectAfter
+        : "/";
+
+    history.replace(redirectTo);
+  }
 
     function cancel() {
         history.replace("/");
@@ -45,5 +48,5 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
-    )
-};
+  );
+}

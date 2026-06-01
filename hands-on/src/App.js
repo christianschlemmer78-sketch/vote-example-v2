@@ -1,8 +1,10 @@
 import React from "react";
+import { useSelector, shallowEqual } from "react-redux";
 import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import NotFoundPage from "./components/NotFoundPage";
-import { useLogin } from "./components/LoginProvider";
 import LoadingIndicator from "./components/LoadingIndicator";
+import ErrorMessage from "./components/ErrorMessage";
+import Layout from "./components/Layout";
 
 const VoteListPage = React.lazy(() => import("./components/VoteListPage"));
 const LoginPage = React.lazy(() => import("./components/LoginPage"));
@@ -10,10 +12,17 @@ const VoteComposerPage = React.lazy(() => import("./components/VoteComposerPage"
 
 export default function App() {
   const location = useLocation();
-  const { isLoggedIn } = useLogin();
+  const loggedIn = useSelector(state => {
+    return state.login !== null;
+  });
+
+  const { loading, description, error } = useSelector(
+    state => state.api,
+    shallowEqual
+  );
 
   function voteComposerOrLogin() {
-    return isLoggedIn ? (
+    return loggedIn ? (
       <VoteComposerPage />
     ) : (
       <Redirect
@@ -25,37 +34,43 @@ export default function App() {
     );
   }
 
+  if (loading) {
+    return (
+    <Layout>
+      <LoadingIndicator title={description}/>
+    </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <ErrorMessage title={error} />
+      </Layout>
+    );
+  }  
+
   return (
-    <div className="Background">
-      <div className="Header">
-        <div className="Title">Vote as a Service</div>
-      </div>
+    <Layout>
+      <Switch>
+        <Route exact path="/">
+          <VoteListPage />
+        </Route>
 
-      <div className="Main">
-        <div className="Container">
-          <React.Suspense fallback={<LoadingIndicator/>}>
-            <Switch>
-              <Route exact path="/">
-                <VoteListPage />
-              </Route>
+        <Route path="/votes/:voteId">
+          <VoteListPage />
+        </Route>
 
-              <Route path="/votes/:voteId">
-                <VoteListPage />
-              </Route>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        
+        <Route path="/compose">{voteComposerOrLogin()}</Route>
 
-              <Route path="/login">
-                <LoginPage />
-              </Route>
-              
-              <Route path="/compose">{voteComposerOrLogin()}</Route>
-
-              <Route>
-                <NotFoundPage />
-              </Route>
-            </Switch>
-          </React.Suspense>
-        </div>
-      </div>
-    </div>
+        <Route>
+          <NotFoundPage />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }

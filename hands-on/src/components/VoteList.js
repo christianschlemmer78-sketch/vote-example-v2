@@ -5,7 +5,6 @@ import VotingComponent from "./VotingComponent";
 export default function VoteList({
   allVotes,
   currentVoteId,
-  onSelectVote,
   onRegisterVote,
   onDismissVote
 }) {
@@ -20,7 +19,7 @@ export default function VoteList({
             onRegisterChoice={onRegisterVote}
           />
         ) : (
-          <VoteSummary key={vote.id} vote={vote} onActivate={onSelectVote} />
+          <VoteSummary key={vote.id} vote={vote} />
         )
       )}
     </div>

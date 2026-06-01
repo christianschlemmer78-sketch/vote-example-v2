@@ -1,10 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
+
 import { Link } from "react-router-dom";
-import { useLogin } from "./LoginProvider";
 
 export default function InactiveVoteComposer() {
-  const { isLoggedIn } = useLogin();
-  const loginHint = isLoggedIn ? "You are already logged in." : "You need to be logged in to add Votings.";
+  const loggedIn = useSelector(state => state.login !== null);
+
+  const loginHint = loggedIn
+    ? "(You're already logged in)"
+    : "(You need to be logged in to add Votings)";
 
   return (
     <div className="Row VotesRow Spacer">

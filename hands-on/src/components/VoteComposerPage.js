@@ -1,13 +1,15 @@
 import React from "react";
 import { useHistory } from "react-router";
 import VoteComposer from "./VoteComposer";
-import { sendJson } from "../backend";
+import { useDispatch } from "react-redux";
+import { saveVoteOnServer } from "../actions";
 
 export default function VoteComposerPage() {
+  const dispatch = useDispatch();
   const history = useHistory();
 
   async function addVote(vote) {
-    await sendJson("POST", "/api/votes", vote);
+    dispatch(saveVoteOnServer(vote));
     closeVoteComposer();
   }
 

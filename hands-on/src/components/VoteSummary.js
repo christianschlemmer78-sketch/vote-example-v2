@@ -10,8 +10,9 @@ export default function VoteSummary({ vote }) {
           {vote.title}
           <div className="Badge">{totalVotes} Votes</div>
         </h1>
+
+        <p className="Emphasis">{vote.description}</p>
       </Link>
-      <p className="Emphasis">{vote.description}</p>
     </div>
   );
 }

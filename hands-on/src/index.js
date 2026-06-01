@@ -4,15 +4,20 @@ import "react-app-polyfill/ie11";
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+
 import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
+
 import App from "./App";
-import LoginProvider from "./components/LoginProvider";
-// Render VotingComponent
+import configureStore from "./configureStore";
+
+const store = configureStore();
+
 ReactDOM.render(
-  <Router>
-    <LoginProvider>
+  <Provider store={store}>
+    <Router>
       <App />
-    </LoginProvider>
-  </Router>,
+    </Router>
+  </Provider>,
   document.getElementById("root")
 );
