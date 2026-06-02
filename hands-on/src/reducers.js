@@ -30,7 +30,7 @@ function apiReducer(state = initialApiState, action) {
 
 function votesReducer(state = [], action) {
   switch (action.type) {
-    case "SET_VOTE":
+    case "SET_VOTES":
       return action.votes;
     case "ADD_VOTE":
       return [...state, action.newVote];

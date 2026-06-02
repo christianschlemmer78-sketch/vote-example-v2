@@ -1,6 +1,5 @@
-import { compose, createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-
+import { compose, legacy_createStore as createStore, applyMiddleware } from "redux";
+import { thunk } from "redux-thunk";
 import reducer from "./reducers";
 
 // Redux Dev Tools: http://extension.remotedev.io/#12-advanced-store-setup
